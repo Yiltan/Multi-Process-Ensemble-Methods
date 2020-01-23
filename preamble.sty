@@ -1,0 +1,168 @@
+\ProvidesPackage{preamble}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Packages
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xspace} % for spacing after macros
+\usepackage{rotating} % Rotating columns on table
+
+\usepackage{tikz} % for software stack program
+\usetikzlibrary{chains}
+
+\usepackage{subcaption}
+\captionsetup[subfigure]{format=hang}
+
+\usepackage{listings}
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+    backgroundcolor=\color{white},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    commentstyle=\color{mygreen},
+    deletekeywords={...},
+    escapeinside={\%*}{*)},
+    extendedchars=true,
+    firstnumber=0,
+    frame=single,
+    keepspaces=true,
+    keywordstyle=\color{blue},
+    language=C++,
+    morekeywords={*,...},
+    numbers=left,
+    numbersep=5pt,
+    numberstyle=\tiny\color{mygray},
+    rulecolor=\color{black},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    stepnumber=1,
+    stringstyle=\color{mymauve},
+    tabsize=2,
+    title=\lstname
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Macros
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\yiltan{Y{\i}ltan Temu\c{c}in}
+
+% MPI Collectives
+\def\allreduce{\texttt{MPI\_Allreduce}\xspace}
+\def\alltoall{\texttt{MPI\_Alltoall}\xspace}
+\def\iallreduce{\texttt{MPI\_Iallreduce}\xspace}
+\def\allgather{\texttt{MPI\_Allgather}\xspace}
+\def\iallgather{\texttt{MPI\_Iallgather}\xspace}
+\def\allgatherv{\texttt{MPI\_Allgatherv}\xspace}
+\def\reduce{\texttt{MPI\_Reduce}\xspace}
+\def\bcast{\texttt{MPI\_Bcast}\xspace}
+\def\gather{\texttt{MPI\_Gather}\xspace}
+\def\gatherv{\texttt{MPI\_Gatherv}\xspace}
+\def\scatter{\texttt{MPI\_Scatter}\xspace}
+
+%MPI Point-To-Point
+\def\send{\texttt{MPI\_Send}\xspace}
+\def\recv{\texttt{MPI\_Recv}\xspace}
+\def\isend{\texttt{MPI\_Isend}\xspace}
+\def\irecv{\texttt{MPI\_Irecv}\xspace}
+
+% MPI Wait
+\def\wait{\texttt{MPI\_Wait}\xspace}
+\def\waitany{\texttt{MPI\_Waitany}\xspace}
+\def\waitall{\texttt{MPI\_Waitall}\xspace}
+
+% MPI Init
+\def\initthread{\texttt{MPI\_Init\_thread}\xspace}
+\def\finalize{\texttt{MPI\_Finalize}\xspace}
+\def\barrier{\texttt{MPI\_Barrier}\xspace}
+
+% MPI Wildcards
+\def\anysource{\texttt{MPI\_ANY\_SOURCE}\xspace}
+\def\anytag{\texttt{MPI\_ANY\_TAG}\xspace}
+
+% MPI Ops
+\def\band{\texttt{MPI\_BAND}\xspace}
+
+% MPI Datatypes
+\def\longlongint{\texttt{MPI\_LONG\_LONG\_INT}\xspace}
+
+% MPI Threading Modes
+\def\threadsingle{\texttt{MPI\_THREAD\_SINGLE}\xspace}
+\def\threadfunneled{\texttt{MPI\_THREAD\_FUNNELED}\xspace}
+\def\threadserialized{\texttt{MPI\_THREAD\_SERIALIZED}\xspace}
+\def\threadmultiple{\texttt{MPI\_THREAD\_MULTIPLE}\xspace}
+
+% MPI Terminology
+\def\mpit{\texttt{MPI\_T}\xspace}
+\def\pmpi{\texttt{PMPI}\xspace}
+
+\def\ptp{point-to-point\xspace}
+
+\def\st{single-threaded\xspace}
+
+\def\contextid{\texttt{context\_id}\xspace}
+\def\rank{\texttt{rank}\xspace}
+\def\tag{\texttt{tag}\xspace}
+
+\def\rd{recursive doubling\xspace}
+\def\shm{shared memory\xspace}
+\def\min{minimum\xspace}
+\def\max{maximum\xspace}
+\def\nb{non-blocking\xspace}
+\def\nbc{\nb collectives\xspace}
+
+% Programming Models
+\def\omp{OpenMP\xspace}
+\def\pthreads{POSIX Threads\xspace}
+\def\openacc{OpenACC\xspace}
+
+% Frameworks
+\def\cntk{CNTK\xspace}
+\def\pt{PyTorch\xspace}
+\def\mxnet{MXNet\xspace}
+\def\keras{Keras\xspace}
+\def\matex{MaTEx\xspace}
+\def\deep{Deep500\xspace}
+
+\def\tf{TensorFlow\xspace}
+\def\tfbench{\textit{tf\_cnn\_benchmark}\xspace}
+
+\def\horovod{Horovod\xspace}
+\def\hft{\texttt{HOROVOD\_FUSION\_THRESHOLD}\xspace}
+\def\beluga{B\'eluga\xspace}
+
+\def\hct{\texttt{HOROVOD\_CYCLE\_TIME}\xspace}
+
+\def\sharp{SHARP\texttrademark\xspace}
+
+\def\dpsgd{\texttt{DataParallelSGD}\xspace}
+\def\bmsgd{\texttt{BlockMomentumSGD}\xspace}
+\def\masgd{\texttt{ModelAveragingSGD}\xspace}
+\def\dpasgd{\texttt{DataParallelASGD}\xspace}
+
+% Linux
+\def\linux{GNU/Linux\xspace}
+
+\def\sed{\texttt{sed}\xspace}
+\def\grep{\texttt{grep}\xspace}
+\def\awk{\texttt{awk}\xspace}
+
+\def\pip{\texttt{pip}\xspace}
+
+\def\git{\texttt{git}\xspace}
+\def\github{GitHub\xspace}
+
+% Buzz Words
+\def\dl{Deep Learning\xspace}
+\def\ml{Machine Learning\xspace}
+\def\rl{Reinforcement Learning\xspace}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\red}[1]{{\color{red} #1}}
+

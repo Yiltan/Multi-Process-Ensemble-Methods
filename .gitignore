@@ -1,6 +1,9 @@
 out/*
 src/figures/logs/*
 
+## Output of aspell
+*.tex.new
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof

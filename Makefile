@@ -14,6 +14,6 @@ open : $(PDF)
 	nohup $(PDF_READER) $(PDF) > /dev/null &
 
 spell :
-	for file in $(shell ls src/); do \
-		aspell -d $(SPELL_LANG) --mode=tex -c src/$(file); \
+	for file in $(shell ls src/*.tex); do \
+		aspell -d $(SPELL_LANG) --mode=tex -c $$file; \
 	done

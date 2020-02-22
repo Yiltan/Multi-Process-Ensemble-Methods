@@ -1,5 +1,4 @@
 out/*
-src/figures/logs/*
 
 ## Output of aspell
 *.tex.new

@@ -10,3 +10,5 @@ Test that the environment is set up using:
 python3 hello.py
 ```
 
+Place data in the `./data/` directory.
+

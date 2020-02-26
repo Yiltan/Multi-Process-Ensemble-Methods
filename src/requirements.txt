@@ -1,5 +1,6 @@
 matplotlib==3.0.3
 numpy==1.18.1
 pandas==0.25.0
-torch==1.4.0+cpu
-torchvision==0.5.0+cpu
+torch==1.4.0
+torchvision==0.5.0
+scipy==1.4.1

@@ -1,4 +1,5 @@
 out/*
+src/data/*
 
 ## Output of aspell
 *.tex.new

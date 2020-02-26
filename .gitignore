@@ -1,4 +1,6 @@
 out/*
+src/data/*
+src/__pycache__
 
 ## Output of aspell
 *.tex.new

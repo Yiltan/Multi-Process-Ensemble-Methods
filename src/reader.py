@@ -15,7 +15,7 @@ def get_matlab_data(signal_type, user_id):
     # - Do we want to do Preprossing here or in another function?
     # + Maybe return the dictionary and filter its data in another function
     
-    global _number_of_users, _videos_per_user
+    global _number_of_users
     assert (0 < user_id <= _number_of_users), "Invalid Inputs!"
 
     

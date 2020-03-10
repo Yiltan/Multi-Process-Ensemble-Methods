@@ -10,14 +10,13 @@ _matlab_data_cache = dict()
 _data_dir = "./data"
 _annotation_path = _data_dir + '/External_Annotations.xlsx'
 
-def get_matlab_data(signal_type, user_id):
+def get_matlab_data(signal_type, user_id, video_number):
 
     # - Do we want to do Preprossing here or in another function?
     # + Maybe return the dictionary and filter its data in another function
 
-    global _number_of_users
-    assert (0 < user_id <= _number_of_users), "Invalid Inputs!"
-
+    global _number_of_users, _videos_per_user
+    valid_inputs = 0 < user_id <= _number_of_users and 0 < video_number <= _videos_per_user
 
     global _matlab_data_cache
     if user_id not in _matlab_data_cache:
@@ -27,13 +26,17 @@ def get_matlab_data(signal_type, user_id):
 
     # Sensor Data of user with user_id
     if signal_type == 'eeg':
-        return data['EEG_DATA']
+        data = data['EEG_DATA']
     elif signal_type == 'ecg':
-        return data['ECG_DATA']
+        data = data['ECG_DATA']
     elif signal_type == 'gsr':
-        return data['GSR_DATA']
+        data = data['GSR_DATA']
     else:
         raise Exception("Invalid data type")
+
+    # [0] is present due to parsing of .mat files.
+    # Transpose so that we return an array index by [col][row]
+    return data[0][video_number].transpose()
 
 
 def get_annotations(user_id, video_number):

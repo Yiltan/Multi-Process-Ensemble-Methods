@@ -1,0 +1,22 @@
+\input{tex/figures/filtering/filtering}
+\FloatBarrier
+\section{Preprocessing}
+We have applied 3 processing steps to our AMIGOS dataset;
+signal filtering, [todo], and [todo].
+In Figures \ref{fig:eeg} and \ref{fig:ecg}
+we can see our filters applied to the EEG and ECG signals in the frequency domain.
+For the EEG signal we followed the guideline set on the AMIGOS
+website and applied a 4-45Hz bandpass filter \cite{AMIGOS:2018}.
+We removed a significant amount of low frequency noise.
+We can see that the preproccessed data results
+in an slightly high amplitude than our original signal despite keeping the same shape.
+Through experimental analysis we noticed that this was by a factor of 5.
+For the ECG signal we applied a 0.5Hz highpass filter as noted in
+\cite{SantamariaGranados:2019}
+to remove baseline wander.
+We also applied a bandstop filter with a 60Hz cutoff.
+A small notch is visible in
+Figures \ref{fig:filter:left} and \ref{fig:filter:right}.
+
+
+\clearpage

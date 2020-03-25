@@ -1,10 +1,7 @@
 import reader
 import filters
-import time
 
-def get_processed_data(signal_type, user_id, video_number):
-    raw_data = reader.get_matlab_data(signal_type, user_id, video_number)
-
+def process_data(signal_type, raw_data):
     # Each signal is filtered differently
     # We are following the guidelines set here:
     # http://www.eecs.qmul.ac.uk/mmv/datasets/amigos/readme.html#prep
@@ -27,7 +24,8 @@ def filter_eeg(data):
 def filter_ecg(data):
     # ECG channels are 1 & 2
     for channel in [1, 2]:
-        data[channel] = filters.low_pass(60 , 128, data[channel])
+        data[channel] = filters.high_pass(0.5, 256, data[channel])
+        data[channel] = filters.band_stop(60, 256, data[channel])
     return data
 
 # Used for testing

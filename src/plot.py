@@ -1,4 +1,8 @@
 import preprocess
+import reader
+import filters
+import copy
+import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib import rc
 rc('text', usetex=True)
@@ -20,19 +24,44 @@ column_name = { 3 : "AF3",
                16 : "AF4"}
 
 if __name__ == "__main__":
-    data = preprocess.get_processed_data('eeg', 1, 12)
-
-    # Time stamp is column 20
-    x = data[20]
-    x = x - x[0] # Start time from zero
+    # Pre-processing changes data in place so we must do a deep copy
+    raw_data = reader.get_matlab_data('eeg', 1, 12)
+    data = preprocess.process_data('eeg', copy.deepcopy(raw_data))
 
     # EEG channels are 3-16
-    for channel in range(3, 17):
+    #for channel in range(3, 17):
+    for channel in range(3, 5):
+        # We must also normalize as the processed data is
+        y_raw = filters.normalize(raw_data[channel])
         y = data[channel]
 
-        plt.plot(x, y)
-        plt.xlabel('Time ($s$)')
+        plt.magnitude_spectrum (y, Fs=128, label='Preprocessed')
+        plt.magnitude_spectrum(y_raw, Fs=128, label='Raw Data')
+
+        plt.legend()
+        plt.xlabel('Frequency (Hz)')
         plt.ylabel(column_name[channel] + " " + 'Volatge ($\mu V$)')
         plt.savefig(column_name[channel] + ".png", bbox_inches='tight')
+        plt.clf()
+
+    # ECG Ploting
+    raw_data = reader.get_matlab_data('ecg', 1, 12)
+    data = preprocess.process_data('ecg', copy.deepcopy(raw_data))
+
+    # ECG channels are 1 & 2
+    for channel in range(1, 3):
+        # We must also normalize as the processed data is
+        y_raw = filters.normalize(raw_data[channel])
+        y = data[channel]
+
+        plt.magnitude_spectrum(y_raw, Fs=256, label='Raw Data')
+        plt.magnitude_spectrum(y, Fs=256, label='Preprocessed')
+
+        plt.legend()
+        plt.xlabel('Frequency (Hz)')
+
+        label = "Left Arm" if channel is 1 else "Right Arm"
+        plt.ylabel(label + ' Volatge ($\mu V$)')
+        plt.savefig("ECG " + label + ".png", bbox_inches='tight')
         plt.clf()
 

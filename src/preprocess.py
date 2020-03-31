@@ -24,8 +24,9 @@ def filter_eeg(data):
 def filter_ecg(data):
     # ECG channels are 1 & 2
     for channel in [1, 2]:
-        data[channel] = filters.high_pass(0.5, 256, data[channel])
-        data[channel] = filters.band_stop(60, 256, data[channel])
+        data[channel] = filters.high_pass(0.05, 256, data[channel])
+        data[channel] = filters.band_stop(50, 256, data[channel])
+        data[channel] = filters.band_stop(64, 256, data[channel])
     return data
 
 # Used for testing

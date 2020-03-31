@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from matplotlib import rc
 rc('text', usetex=True)
 
-def plot_eeg():
+def plot_eeg_freq():
     plt.figure(figsize=(8, 4))
     column_name = { 3 : "AF3",
                     4 : "F7",
@@ -44,11 +44,13 @@ def plot_eeg():
         plt.savefig(column_name[channel] + ".png", bbox_inches='tight')
         plt.clf()
 
-def plot_ecg():
+def plot_ecg_freq():
     plt.figure(figsize=(8, 4))
     # ECG Ploting
     raw_data = reader.get_matlab_data('ecg', 1, 12)
     data = preprocess.process_data('ecg', copy.deepcopy(raw_data))
+
+    x = data[0] - data[0][0]
 
     # ECG channels are 1 & 2
     for channel in range(1, 3):
@@ -60,14 +62,40 @@ def plot_ecg():
         plt.magnitude_spectrum(y, Fs=256, label='Preprocessed')
 
         plt.legend()
-        plt.xlabel('Frequency (Hz)')
+        plt.xlabel('Frequency (s)')
 
         label = "Left Arm" if channel is 1 else "Right Arm"
         plt.ylabel(label + ' Volatge ($\mu V$)')
         plt.savefig("ECG " + label + ".png", bbox_inches='tight')
         plt.clf()
 
+def plot_ecg_time():
+    plt.figure(figsize=(8, 4))
+    # ECG Ploting
+    raw_data = reader.get_matlab_data('ecg', 1, 12)
+    data = preprocess.process_data('ecg', copy.deepcopy(raw_data))
+
+    x = data[0] - data[0][0]
+
+    # ECG channels are 1 & 2
+    for channel in range(1, 3):
+        # We must also normalize as the processed data is
+        y_raw = filters.normalize(raw_data[channel])
+        y = data[channel]
+
+        plt.plot(x, y_raw, label='Raw Data')
+        plt.plot(x, y, label='Preprocessed')
+
+        plt.legend()
+        plt.xlabel('Time (s)')
+
+        label = "Left Arm" if channel is 1 else "Right Arm"
+        plt.ylabel(label + ' Volatge ($\mu V$)')
+        plt.savefig("ECG " + label + " time.png", bbox_inches='tight')
+        plt.clf()
+
 
 if __name__ == "__main__":
-    plot_eeg()
-    plot_ecg()
+    plot_eeg_freq()
+    plot_ecg_freq()
+    plot_ecg_time()

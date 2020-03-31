@@ -11,12 +11,14 @@ We removed a significant amount of low frequency noise.
 We can see that the preproccessed data results
 in an slightly high amplitude than our original signal despite keeping the same shape.
 Through experimental analysis we noticed that this was by a factor of 5.
-For the ECG signal we applied a 0.5Hz highpass filter as noted in
+For the ECG signal we applied a 0.05Hz highpass filter as noted in
 \cite{SantamariaGranados:2019}
 to remove baseline wander.
-We also applied a bandstop filter with a 60Hz cutoff.
+We also applied a bandstop filter with a 50Hz cutoff.
 A small notch is visible in
 Figures \ref{fig:filter:left} and \ref{fig:filter:right}.
+The impact of the frequency filtering in the time domain can be seen in Figure
+\label{fig:ecg:time}.
 
 
 \clearpage

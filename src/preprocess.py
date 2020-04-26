@@ -1,6 +1,7 @@
 import reader
 import filters
 
+
 def process_data(signal_type, raw_data):
     # Each signal is filtered differently
     # We are following the guidelines set here:
@@ -31,5 +32,8 @@ def filter_ecg(data):
 
 # Used for testing
 if __name__ == "__main__":
-    print(get_processed_data('eeg', 1, 12))
-    print(get_processed_data('ecg', 1, 12))
+    raw_data = reader.get_matlab_data('eeg', 1, 12)
+    print(process_data('eeg', raw_data))
+
+    raw_data = reader.get_matlab_data('ecg', 1, 12)
+    print(process_data('ecg', raw_data))

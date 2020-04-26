@@ -1,3 +1,4 @@
+import scipy
 import scipy.signal as signal
 
 def normalize(data):

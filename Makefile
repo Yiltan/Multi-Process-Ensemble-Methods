@@ -1,4 +1,13 @@
-PDF_READER='zathura'
+UNAME=$(shell uname)
+
+ifeq ($(UNAME), Linux)
+	PDF_READER='zathura'
+else
+  ifeq ($(UNAME), Darwin)
+	PDF_READER='open'
+  endif
+endif
+
 SPELL_LANG='en_GB'
 
 OUT_DIR=out

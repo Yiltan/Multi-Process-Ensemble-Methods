@@ -1,4 +1,4 @@
-*.png
+src/*.png
 out/*
 src/data/*
 src/__pycache__

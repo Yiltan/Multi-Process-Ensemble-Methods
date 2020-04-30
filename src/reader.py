@@ -11,9 +11,10 @@ _data_dir = "./data"
 _annotation_path = _data_dir + '/External_Annotations.xlsx'
 
 def get_matlab_data(signal_type, user_id, video_number):
-
+	
 	# - Do we want to do Preprossing here or in another function?
 	# + Maybe return the dictionary and filter its data in another function
+	# - We kept everything untouched here then
 
 	global _number_of_users, _videos_per_user
 	valid_inputs = 0 < user_id <= _number_of_users and 0 < video_number <= _videos_per_user
@@ -30,15 +31,18 @@ def get_matlab_data(signal_type, user_id, video_number):
 	if signal_type == 'eeg':
 		eeg_data = data['EEG_DATA']
 		eeg_data = eeg_data[0][video_number].transpose()
-		return eeg_data[4:18]
+		# return eeg_data[4:18]
+		return eeg_data
 	elif signal_type == 'ecg':
 		ecg_data = data['ECG_DATA']
 		ecg_data = ecg_data[0][video_number].transpose()
-		return ecg_data[2:4]
+		# return ecg_data[2:4]
+		return ecg_data
 	elif signal_type == 'gsr':
 		gsr_data = data['GSR_DATA']
 		gsr_data = gsr_data[0][video_number].transpose()
-		return gsr_data[2]
+		# return gsr_data[2]
+		return gsr_data
 	else:
 		raise Exception("Invalid data type")
 

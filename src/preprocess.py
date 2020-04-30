@@ -15,9 +15,8 @@ def filter_ecg(data):
 
 def filter_eeg(data):
 	# EEG sample rate has to be 128 - After 10 hours debug!
-	# Accepts all the channels together
-	for channel in range(len(data)):
-		data[channel] = filters.band_pass(4, 45, 128, data[channel])
+	# Accepts on channel at a time
+	data = filters.band_pass(4, 45, 128, data)
 	return data
 	
 def get_freqs_power(data, sample_rate, nperseg, scaling):
@@ -60,7 +59,9 @@ def detrend(data):
 def process_eeg(data):
 
 	# Total 14 EEG channels
-	data = filter_eeg(data);
+	# Assume that the data contains only EEG signals
+	for channel in range(len(data)):
+		data[channel] = filter_eeg(data[channel])
 
 	# PSD features
 	theta_power = []
@@ -134,7 +135,7 @@ def process_eeg(data):
 		gamma_power + theta_spa + slow_alpha_spa + alpha_spa + beta_spa + \
 		gamma_spa + theta_relative_power + slow_alpha_relative_power + \
 		alpha_relative_power + beta_relative_power + gamma_relative_power + \
-		[total_power, np.mean(theta_power), np.mean(alpha_power), np.mean(beta_power), np.mean(gamma_power), \
+		[np.mean(theta_power), np.mean(alpha_power), np.mean(beta_power), np.mean(gamma_power), \
 		np.std(theta_power), np.std(alpha_power), np.std(beta_power), np.std(gamma_power), \
 		np.min(theta_power), np.min(alpha_power), np.min(beta_power), np.min(gamma_power), \
 		np.max(theta_power), np.max(alpha_power), np.max(beta_power), np.max(gamma_power)]
@@ -285,46 +286,47 @@ def process_amigos_data():
 	
 	amigos_data = np.array([])
 	corrupted = np.array([])
-	for person in range(1, reader._number_of_users):
-		for video in range(1, reader._videos_per_user):
-			if person in reader._missing_data_subject:
-				continue;
+	for person in range(1, 3): #reader._number_of_users
+		if person in reader._missing_data_subject:
+			continue;
+		for video in range(1, 2): #reader._videos_per_user
 			try:
 				raw_eeg_data = reader.get_matlab_data('eeg', person, video)
-				eeg_features = process_eeg(raw_eeg_data)
+				eeg_features = process_eeg(raw_eeg_data[3:17])
 				
 				raw_ecg_data = reader.get_matlab_data('ecg', person, video)
-				ecg_features_R = process_ecg(raw_ecg_data[0])
-				ecg_features_L = process_ecg(raw_ecg_data[1])	
+				ecg_features_R = process_ecg(raw_ecg_data[1])
+				ecg_features_L = process_ecg(raw_ecg_data[2])	
 				
 				raw_gsr_data = reader.get_matlab_data('gsr', person, video)
-				gsr_features = process_gsr(raw_gsr_data)
+				gsr_features = process_gsr(raw_gsr_data[1])
 				
 				all_features = np.array(eeg_features + ecg_features_R + ecg_features_L + gsr_features)
 				amigos_data = np.vstack((amigos_data, all_features)) if len(amigos_data) else all_features
 			
 			except:
-				print("Couldn't extract feature, person: %d, video: %d".format(person, video))
+				print("Couldn't extract feature, person: {0}, video: {1}".format(person, video))
 				#corrupted = np.vstack((corrupted, [person, video])) if len(corrupted) else [person, video]
-				
+	
 	return amigos_data
 	
 # Used for testing
 if __name__ == "__main__":
+	
 	raw_eeg_data = reader.get_matlab_data('eeg', 6, 12)
-	eeg_features = process_eeg(raw_eeg_data)
+	eeg_features = process_eeg(raw_eeg_data[3:17])
 	print(len(eeg_features))
 	
 	raw_ecg_data = reader.get_matlab_data('ecg', 1, 15)
-	ecg_features_R = process_ecg(raw_ecg_data[0])
-	ecg_features_L = process_ecg(raw_ecg_data[1])
+	ecg_features_R = process_ecg(raw_ecg_data[1])
+	ecg_features_L = process_ecg(raw_ecg_data[2])
 	print(len(ecg_features_R))
 	print(len(ecg_features_L))
 	
 	raw_gsr_data = reader.get_matlab_data('gsr', 1, 13)
-	gsr_features = process_gsr(raw_gsr_data)
+	gsr_features = process_gsr(raw_gsr_data[1])
 	print(len(gsr_features))
 	
 	# Let's store the preprocessed extracted features.
-	np.savetxt('data/features.csv', process_amigos_data(), delimiter=',')
+	np.savetxt('data/features.csv', process_amigos_data(), delimiter=',', fmt='%s')
 	

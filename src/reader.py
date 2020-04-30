@@ -2,7 +2,8 @@ import pandas as pd
 from scipy.io import loadmat
 
 _number_of_users = 40
-_videos_per_user = 20
+_videos_per_user = 16 
+# 17-20 correspond to the long videos experiment
 _missing_data_subject = [9, 12, 21, 22, 23, 24, 33]
 _annotations_cache = None
 _matlab_data_cache = dict()

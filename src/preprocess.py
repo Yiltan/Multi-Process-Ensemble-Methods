@@ -7,13 +7,15 @@ import biosppy.signals as bio
 import PyEMD
 
 def filter_ecg(data): 
-	# Amir: ECG sample rate has to be 256 - After 10 hours debug!
+	# ECG sample rate has to be 256 - After 10 hours debug!
+	# Just on signal at a time
 	data = filters.high_pass(1., 256., data)
 	data = filters.low_pass(40., 256., data)
 	return data
 
 def filter_eeg(data):
-	# Amir: EEG sample rate has to be 128 - After 10 hours debug!
+	# EEG sample rate has to be 128 - After 10 hours debug!
+	# Accepts all the channels together
 	for channel in range(len(data)):
 		data[channel] = filters.band_pass(4, 45, 128, data[channel])
 	return data
@@ -47,6 +49,7 @@ def get_five_bands_power(freqs, power):
 	return theta_power, slow_alpha_power, alpha_power, beta_power, gamma_power
 	
 def detrend(data):
+	# No idea what it's doing! Doesn't matter as long as it works.
     emd = PyEMD.EMD()
     imfs = emd(data)
     detrended = np.sum(imfs[:int(imfs.shape[0] / 2)], axis=0)
@@ -322,5 +325,6 @@ if __name__ == "__main__":
 	gsr_features = process_gsr(raw_gsr_data)
 	print(len(gsr_features))
 	
+	# Let's store the preprocessed extracted features.
 	np.savetxt('data/features.csv', process_amigos_data(), delimiter=',')
 	

@@ -1,6 +1,19 @@
+\section{Experimental Results}
+\label{sec:experimental_results}
+\subsection{Software Platform}
+For our tests we are using \texttt{pandas},
+a data manpilation librirary,
+for reading data in structured formats such as
+\texttt{.csv} and \texttt{.xlxs} files.
+The AMIGOS dataset is avaible in \texttt{.mat} format.
+As we would like to use Python for our work we used
+the library \texttt{SciPi} to read this format in a Python friendly manner.
+This library was also used for the signal processing portion of our project.
+For ploting of figures we used \texttt{matplotlib.pyplot}.
+
 \input{tex/figures/filtering/filtering}
 \FloatBarrier
-\section{Preprocessing}
+\subsection{Preprocessing}
 We have applied 3 processing steps to our AMIGOS dataset;
 signal filtering, [todo], and [todo].
 In Figures \ref{fig:eeg} and \ref{fig:ecg}
@@ -19,6 +32,5 @@ A small notch is visible in
 Figures \ref{fig:filter:left} and \ref{fig:filter:right}.
 The impact of the frequency filtering in the time domain can be seen in Figure
 \label{fig:ecg:time}.
-
 
 \clearpage

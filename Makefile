@@ -1,14 +1,12 @@
 UNAME=$(shell uname)
 
-ifeq ($(UNAME), Linux)
-	PDF_READER='zathura'
-else
-  ifeq ($(UNAME), Darwin)
+ifeq ($(UNAME), Darwin)
 	PDF_READER='open'
-  endif
+	SPELL_LANG='uk'
+else # ($(UNAME), Linux) # Else it is Linux, unsure on windows.
+	PDF_READER='zathura'
+	SPELL_LANG='en_GB'
 endif
-
-SPELL_LANG='en_GB'
 
 OUT_DIR=out
 FILE=$(shell ls -p | grep -v / | grep tex)
@@ -24,5 +22,7 @@ open : $(PDF)
 
 spell :
 	for file in $(shell ls tex/*.tex); do \
+		echo $$file; \
 		aspell -d $(SPELL_LANG) --mode=tex -c $$file; \
 	done
+		#aspell -d $(SPELL_LANG) --mode=tex -c $$file; \

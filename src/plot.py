@@ -4,8 +4,11 @@ import filters
 import copy
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import rc
-#rc('text', usetex=True)
+import os
+
+if os.name != 'nt':
+    from matplotlib import rc
+    rc('text', usetex=True)
 
 def plot_eeg_freq():
 	plt.figure(figsize=(8, 4))
@@ -48,7 +51,7 @@ def plot_ecg_freq():
 	plt.figure(figsize=(8, 4))
 	# ECG Ploting
 	raw_data = reader.get_matlab_data('ecg', 1, 12)
-	
+
 	data = [preprocess.filter_ecg(copy.deepcopy(raw_data[0])),
 			preprocess.filter_ecg(copy.deepcopy(raw_data[1]))]
 
@@ -73,7 +76,7 @@ def plot_ecg_time():
 	plt.figure(figsize=(8, 4))
 	# ECG Ploting
 	raw_data = reader.get_matlab_data('ecg', 1, 12)
-	
+
 	data = [preprocess.filter_ecg(copy.deepcopy(raw_data[0])),
 			preprocess.filter_ecg(copy.deepcopy(raw_data[1]))]
 

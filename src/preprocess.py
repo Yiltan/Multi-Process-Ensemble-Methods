@@ -5,6 +5,7 @@ import scipy.stats as stats
 import numpy as np
 import biosppy.signals as bio
 import PyEMD
+import sys
 
 def filter_ecg(data): 
 	# ECG sample rate has to be 256 - After 10 hours debug!
@@ -286,10 +287,10 @@ def process_amigos_data():
 	
 	amigos_data = np.array([])
 	corrupted = np.array([])
-	for person in range(1, 3): #reader._number_of_users
-		if person in reader._missing_data_subject:
-			continue;
-		for video in range(1, 2): #reader._videos_per_user
+	for person in range(1, reader._number_of_users):
+		for video in range(1, reader._videos_per_user):
+			print("Working on: person {0} and video {1}".format(person, video))
+			sys.stdout.flush()
 			try:
 				raw_eeg_data = reader.get_matlab_data('eeg', person, video)
 				eeg_features = process_eeg(raw_eeg_data[3:17])
@@ -305,7 +306,8 @@ def process_amigos_data():
 				amigos_data = np.vstack((amigos_data, all_features)) if len(amigos_data) else all_features
 			
 			except:
-				print("Couldn't extract feature, person: {0}, video: {1}".format(person, video))
+				print("ERROR --> Couldn't extract feature, person: {0}, video: {1}".format(person, video))
+				sys.stdout.flush()
 				#corrupted = np.vstack((corrupted, [person, video])) if len(corrupted) else [person, video]
 	
 	return amigos_data
@@ -313,6 +315,7 @@ def process_amigos_data():
 # Used for testing
 if __name__ == "__main__":
 	
+	'''
 	raw_eeg_data = reader.get_matlab_data('eeg', 6, 12)
 	eeg_features = process_eeg(raw_eeg_data[3:17])
 	print(len(eeg_features))
@@ -326,7 +329,8 @@ if __name__ == "__main__":
 	raw_gsr_data = reader.get_matlab_data('gsr', 1, 13)
 	gsr_features = process_gsr(raw_gsr_data[1])
 	print(len(gsr_features))
+	'''
 	
 	# Let's store the preprocessed extracted features.
-	np.savetxt('data/features.csv', process_amigos_data(), delimiter=',', fmt='%s')
+	np.savetxt('data/features.csv', process_amigos_data(), delimiter=',')
 	

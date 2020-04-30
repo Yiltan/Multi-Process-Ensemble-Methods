@@ -23,24 +23,24 @@ def get_matlab_data(signal_type, user_id, video_number):
 		_matlab_data_cache[user_id] = loadmat('data/Data_Original_P{:02d}.mat'.format(user_id));
 
 	data = _matlab_data_cache[user_id]
-
+	
 	# Sensor Data of user with user_id
-	if signal_type == 'eeg':
-		data = data['EEG_DATA'][0][video_number].transpose()
-		data = data[4:18]
-	elif signal_type == 'ecg':
-		data = data['ECG_DATA'][0][video_number].transpose()
-		data = data[2:4]
-	elif signal_type == 'gsr':
-		data = data['GSR_DATA'][0][video_number].transpose()
-		data = data[2] 
-	else:
-		raise Exception("Invalid data type")
-
 	# [0] is present due to parsing of .mat files.
 	# Transpose so that we return an array index by [col][row]
-	return data
-
+	if signal_type == 'eeg':
+		eeg_data = data['EEG_DATA']
+		eeg_data = eeg_data[0][video_number].transpose()
+		return eeg_data[4:18]
+	elif signal_type == 'ecg':
+		ecg_data = data['ECG_DATA']
+		ecg_data = ecg_data[0][video_number].transpose()
+		return ecg_data[2:4]
+	elif signal_type == 'gsr':
+		gsr_data = data['GSR_DATA']
+		gsr_data = gsr_data[0][video_number].transpose()
+		return gsr_data[2]
+	else:
+		raise Exception("Invalid data type")
 
 def get_annotations(user_id, video_number):
 
@@ -63,12 +63,11 @@ def get_annotations(user_id, video_number):
 	df = df.drop(['index', 'UserID', 'Video_Number', 'VideoID'], axis=1)
 	return df
 
-
 # Used for testing
 if __name__ == "__main__":
 	# Get data of a specific user and a specific video
 	df = get_annotations(5, 18)
-	print(df)
+	#print(df)
 	
 	# This line should raise the Exception
 	# df = get_annotations(50, 18)

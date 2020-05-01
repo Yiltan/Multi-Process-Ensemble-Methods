@@ -4,37 +4,43 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
-def reduce_dimensions(dimensions):
+#categories = ['neutral','disgust','happiness','surprise','anger','fear','sadness']
+
+def reduce_dimensions(dimensions=40, category='neutral'):
 	
 	features = reader.get_features()
 	
-	labels = reader.get_all_assessments()
+	all_labels = reader.get_all_assessments()
 	
-	# Split features from their IDs
+	# Split features from their user and video IDs
 	user_video = features.loc[:, [0,1]].values
 	features = features.drop([0, 1], axis=1)
 	
-	features = StandardScaler().fit_transform(features)
-	featuresDF = pd.DataFrame(data=features)
+	# Add current state of the user to the features, only one category
+	features = pd.concat([features, all_labels[category]], axis=1)
+	# print(features)
 	
-	print(featuresDF.head())
+	features = StandardScaler().fit_transform(features)
+	#features_DF = pd.DataFrame(data=features)
 	
 	pca = PCA(n_components=dimensions)
-	principalComponents = pca.fit_transform(features)
-	principalDF = pd.DataFrame(data=principalComponents)
-	print(principalDF.head())
+	principal_components = pca.fit_transform(features)
+	principal_DF = pd.DataFrame(data=principal_components)
 	
-	#variances = np.var(principalComponents, axis=0)
+	#variances = np.var(principal_components, axis=0)
 	#variances_ratio = variances / np.sum(variances)
+	#print("Variance ratio of the features: ")
 	#print(variances_ratio)
+	#print("Sum of the variances ratio (out of 1): ")
 	#print(np.sum(variances_ratio[:40]))
 	
-	finalDF = pd.concat([pd.DataFrame(user_video), principalDF], axis=1)
-	finalDF_labeled = pd.concat([principalDF, labels], axis=1)
 	
-	print(finalDF.head())
-	print(finalDF_labeled)
+	final_PCs_DF = pd.concat([pd.DataFrame(user_video), principal_DF], axis=1)
 	
+	# select the category of the label:
+	labels = all_labels[category+".1"]
+	
+	return labels, final_PCs_DF
 	
 # Used for testing
 if __name__ == "__main__":
@@ -44,4 +50,6 @@ if __name__ == "__main__":
 	# variances.
 	# reduce_dimensions(384)
 	
-	reduce_dimensions(40)
+	labels, final_PCs_DF = reduce_dimensions('happiness')
+	print(labels)
+	print(final_PCs_DF)

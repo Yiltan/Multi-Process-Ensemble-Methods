@@ -2,6 +2,7 @@ src/*.png
 out/*
 src/data/*
 src/__pycache__
+.DS_Store
 
 ## Output of aspell
 *.tex.new

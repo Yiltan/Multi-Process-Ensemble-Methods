@@ -1,4 +1,3 @@
-\clearpage
 \section{Background}
 \label{sec:background}
 \subsection{Sensors}
@@ -10,8 +9,8 @@ Electromyography,
 Electrocardiography,
 and Electroencephalography.
 
-\subsubsection{Electromyography (EMG)}
-EMG sensors are used to measure muscle activity.
+\subsubsection{Electrocardiography (ECG)}
+Sensors are used to measure muscle activity.
 As muscles contract and relax,
 electirical signals are sent via neurons.
 These electrical signals then
@@ -22,9 +21,7 @@ and are cleaned with alchol before palcing
 on the surface of the skin.
 Maximum voulentary contraction is used to normalize the signals
 before begining recording.
-
-\subsubsection{Electrocardiography (ECG)}
-These types of sensors are very similar to EMGs
+Similar sensors are used to measure the heart
 but they are used to measure the PQRST complex of a heart beat.
 Each part of the PQRST complex
 corresponds to a part of the heart's cycle as it pumps blood around the body.
@@ -64,19 +61,36 @@ valence, arousal, control, familiarity, like/dislike,
 and selection of basic emotions.
 
 \subsection{Machine Learning}
-Feature Extraction - Currently done
+Machine Learning (ML) uses statistical models and
+optimization algorithms to model a problem.
+ML often requires large volumnes of data to generalize a problem.
+Representation Learning is when the orignal data is not learned
+but rather transfered into a different form in which it is learned.
+One example would be using feature extraction.
+Features are extracted from datasets and then this new representation of the data
+is learned.
+Another common problem is having too much data which causes slow training times.
+Techniques like dimention reduction are used to reduce the volume of
+data.
 
-PCA - Dimension reduction - Amir is using this
-
-Models we will try and use:
-SVM
-KNN
-Naive Bayes - not recognition to predict between two classes.
-
-kkkkkkk
-
-
-
+Many different models are used to classify data within machine learning,
+some of the most popular are SVM, KNN, Naive Bayes.
+SVMs try to fit a plane between many data points.
+This algorithm often has problems with data which is not
+linearly sepearble.
+KNN algorithm finds the K-nearest neighbours to each data point.
+This algorithm is simple to implement but it does not scale well
+to large datasets as the distance between any two points must be calculated.
+The Naive Bayes is also another simple model which is used but the main issue
+with using this that it makes an assumption about the underlying distribution of
+our data.
 
 \subsection{Motivation}
+The new AMIGOS dataset has provided researchers with new
+data which has not been previously collected.
+Using the signals such as ECG, EEG, and GSR
+could we create a mapping to the
+labels of the videos such as
+valence, arousal, control, familiarity, like/dislike,
+and selection of basic emotions?
 

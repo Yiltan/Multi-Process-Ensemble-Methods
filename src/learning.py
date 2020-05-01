@@ -120,30 +120,30 @@ def knn(categories, k_range):
 	max_accuracies = {}
 	max_f1_scores = {}
 	cnfsn_matrices = {}
-	best_k = {}
+	best_Ks = {}
 	for category in categories:
 		
 		max_accuracies[category] = 0
 		max_f1_scores[category] = 0
-		best_k[category] = 0
+		best_Ks[category] = 0
 		for k in k_range:
 			if(f1_scores_list[k-1][category] > max_f1_scores[category]):
-				best_k[category] = k
+				best_Ks[category] = k
 				max_f1_scores[category] = f1_scores_list[k-1][category]
 				max_accuracies[category] = accuracies_list[k-1][category]
 				cnfsn_matrices[category] = cnfsn_matrices_list[k-1][category]
 
-	print("KNN: best k for each category = ")
-	print(best_k)
-	return max_f1_scores, max_accuracies, cnfsn_matrices
-		
+	#print("KNN: best k for each category = ")
+	#print(best_Ks)
+	return max_f1_scores, max_accuracies, cnfsn_matrices, best_Ks
+
 # Used for testing
 if __name__ == "__main__":
 	categories = ['neutral','disgust','happiness','surprise','anger','fear','sadness']
 	
-	#LR_f1, LR_accuracy, LR_cnfsn = logist_regression(categories)
-	#SVM_f1, SVM_accuracy, SVM_cnfsn = linear_svm(categories)
-	KNN_f1, KNN_accuracy, KNN_cnfsn = knn(categories, range(1, 26))
+	LR_f1, LR_accuracy, LR_cnfsn = logist_regression(categories)
+	SVM_f1, SVM_accuracy, SVM_cnfsn = linear_svm(categories)
+	KNN_f1, KNN_accuracy, KNN_cnfsn, KNN_best_Ks = knn(categories, range(1, 26))
 	
 	# You can print the scores right away, like:
 	# print(LR_f1)
@@ -151,4 +151,20 @@ if __name__ == "__main__":
 	
 	print(KNN_f1)
 	
+	for category in categories:
+		print("\n------ Category: {0} -------\n".format(category))
+		print("\n1. Logistic Regression: ")
+		print("\tf1_score: {0}".format(LR_f1[category]))
+		print("\tAccuracy: {0}".format(LR_accuracy[category]))
+		
+		print("\n2. SVM: ")
+		print("\tf1_score: {0}".format(SVM_f1[category]))
+		print("\tAccuracy: {0}".format(SVM_accuracy[category]))
+		
+		print("\n3. KNN: ")
+		print("\tf1_score: {0}".format(KNN_f1[category]))
+		print("\tAccuracy: {0}".format(KNN_accuracy[category]))
+		print("\tBest K: {0}".format(KNN_best_Ks[category]))
+		
+		sys.stdout.flush()
 	

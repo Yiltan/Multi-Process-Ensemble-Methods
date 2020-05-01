@@ -1,32 +1,32 @@
 \section{Related Work}
 \label{sec:related_work}
 In \cite{sarkar2020selfsupervised} Sarkar and Etemad
-used the EEG signals from the AMIGOS dataset to classify emotions.
-They used a signal transformation recoginition networks
-where they learned representations of unlabled EEG signals.
-These weights were then transfered to a pre-existing emotional
+used the EEG signals from the AMIGOS data set to classify emotions.
+They used a signal transformation recognition networks
+where they learned representations of unlabelled EEG signals.
+These weights were then transferred to a pre-existing emotional
 recognition framework.
 Although there model performed better than some state of the art models
 they had issues with subject independent emotion recognition.
 
-Harper and Southern used the ECG signals from the AMIGOS dataset
-and fed this data into a bayesian framework to model
+Harper and Southern used the ECG signals from the AMIGOS data set
+and fed this data into a Bayesian framework to model
 the uncertainty of the valence predictions \cite{Harper_2020}.
 They also compared made comparisons to LSTM and CNN models with
-and without their bayesian framework.
-This approach with did not account for multimodal input.
+and without their Bayesian framework.
+This approach with did not account for multi-modal input.
 
 The Deep Belief-Conditional Random Field Framework was used by
 Chao and Lui in \cite{8999626}.
-In this work they used the many different EEG chanels as inputs to their system.
-They trained each channel independently and use ensamble methods to combine the outputs.
-Using this method they were not able to outperorm other state of the art methods
+In this work they used the many different EEG channels as inputs to their system.
+They trained each channel independently and use ensemble methods to combine the outputs.
+Using this method they were not able to outperforms other state of the art methods
 but they did show that this method is comparable and domes have promise.
 
 In \cite{LI2020102185} Li et. al used LSTMs.
-This avoided manual labor of desining and extracting features.
+This avoided manual labour of designing and extracting features.
 Before feeding the data into the LSTM they transformed the signals into spectrograms.
-Their methods is also multimodel and incorperats many different signals which
+Their methods is also multi-model and incorporates many different signals which
 are present in the AMIGOs datset.
 Using this method they were able to detect emotions from the raw signals and outperform some of the current best works in this area.
 
@@ -34,19 +34,19 @@ Using this method they were able to detect emotions from the raw signals and out
 Martínez-Tejada et. al showed that age, sex, personality type did not
 correlate with the detection of emotion, arousal or valiane when using
 machine learning algorithms \cite{Mart_nez_Tejada_2020}.
-They used relativly simple alogrithms to the other works discussed.
-They use SVMs, Naive bayes, and random forrests for their tests.
+They used relatively simple algorithms to the other works discussed.
+They use SVMs, Naive Bayes, and random forests for their tests.
 These tests were carried out independently from one another.
-In their discussing they did comment on wheather the use of these
-simples models where the reason behind not finding a strong correlation
-or wheather there was not a correlation to begin with.
+In their discussing they did comment on whether the use of these
+samples models where the reason behind not finding a strong correlation
+or whether there was not a correlation to begin with.
 
 The work by Yang and Lee in \cite{8683290}  developed
 a attribute-invariance loss embedded variational autoencoder (AI-VAE).
 When compared to traditional variational autoencoders (VAE)
-they saw that they were able to achive a 6.5\% performance improvment.
+they saw that they were able to achieve a 6.5\% performance improvement.
 
-All of these works do not use all of the various singals offered by the AMIGOS dataset.
+All of these works do not use all of the various signals offered by the AMIGOS data set.
 The goal of our work is to combine all of the EEG, ECG, and GSR signals for our feature extraction phase.
 We want so see if combining different signals from the same video sample
 allows us to better classifier our problem.

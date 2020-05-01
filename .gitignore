@@ -1,6 +1,6 @@
 src/*.png
 out/*
-src/data/*
+src/data/Data*
 src/__pycache__
 .DS_Store
 

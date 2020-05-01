@@ -97,7 +97,8 @@ def get_assessments(user_id, video_number):
 
 def get_all_assessments():
 	# make sure get_assessments() runs at least once
-	get_assessments(5,5)
+	if _assessments_cache is None:
+		get_assessments(5,5)
 	return _assessments_cache
 
 def get_features():

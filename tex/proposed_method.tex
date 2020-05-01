@@ -11,14 +11,13 @@ For filtering we use a butter worth filter with various cutoffs which are depend
 Band notch is used to remove powerline hum and highpass filters are used to remove
 baseline wander.
 For feature creation we split the EEG signal into its alpha, beta, theta, and gamma bands.
-From this we create the features from geting the power from each band
+From this we created the features by spliting the power from each band
 
-For dimentionality reduction we reduce the 368 dimentions to 40 using PCA
-and selecting the top 40 vectors.
+For dimentionality reduction we reduced the 368 dimentions using PCA
+and then selecting the top 40 vectors.
 Although this is a significant reduction in dimention we keep 82\% of our
 original variance.
 
-For classification we use an ensamble method.
 Then these processes join and are fed into 3 different classifiers;
 A Logistic Regression, SVM, and KNN.
 We also tried to use Naive Bayes but we were unable to get it working.

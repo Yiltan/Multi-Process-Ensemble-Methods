@@ -1,10 +1,11 @@
 import dimension_reduction as dr
 import numpy as np
 import pandas as pd
+import sklearn.metrics as metrics
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import f1_score
+from sklearn.metrics import f1_score, confusion_matrix
 
 def logist_regression(categories):
 	
@@ -13,7 +14,7 @@ def logist_regression(categories):
 		labels, data = dr.reduce_dimensions(dimensions=40, category=category)
 	
 		train_data, test_data, train_label, test_label = train_test_split(
-			data, labels, test_size=1/8.0, random_state=0)
+			data, labels, test_size=0.15, random_state=0)
 
 		logistic_regr = LogisticRegression(max_iter=10000)
 		
@@ -23,7 +24,9 @@ def logist_regression(categories):
 		
 		f_one_score = f1_score(test_label, predicted, average='weighted')
 		print("f1_score: {0}".format(f_one_score))
-		print("Accuracy: {0}".format(logistic_regr.score(test_data, test_label)))
+		print("Accuracy: {0}".format(metrics.accuracy_score(test_label, predicted)))
+		print(confusion_matrix(test_label, predicted))
+		
 		
 # Used for testing
 if __name__ == "__main__":

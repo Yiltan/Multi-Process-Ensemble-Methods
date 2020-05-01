@@ -196,11 +196,12 @@ def ensemble(categories, KNN_best_Ks):
 			data, labels, test_size=0.15, random_state=0)
 
 		svc = svm.LinearSVC(dual=False, max_iter=10000)	
-		knn = KNeighborsClassifier(n_neighbors=KNN_best_Ks[category])	
-		logistic_regr = LogisticRegression(max_iter=10000)
-
-		estimators = [('knn', knn), ('svc', svc), ('log_reg', logistic_regr)]
-		ensemble = VotingClassifier(estimators, voting='hard', weights=[2,1,1])
+		knn = KNeighborsClassifier(n_neighbors=KNN_best_Ks[category])
+		logistic_regr = LogisticRegression(max_iter=10000)		
+		ada= AdaBoostClassifier(n_estimators=100)
+		
+		estimators = [('knn', knn), ('svc', svc), ('log_reg', logistic_regr), ('ada', ada)]
+		ensemble = VotingClassifier(estimators, voting='hard', weights=[2,1,1,1])
 		ensemble.fit(train_data, train_label)
 		ensemble_predicted = ensemble.predict(test_data)
 		

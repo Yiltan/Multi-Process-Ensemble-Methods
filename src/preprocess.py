@@ -344,7 +344,7 @@ def process_amigos_data_threaded(pid, total, q):
 		if(person in reader._missing_data_subject):
 			logging.info('Skipping User{0}.'.format(person))
 			continue
-		for video in range(1, reader._videos_per_user):
+		for video in range(0, reader._videos_per_user):
 			logging.info("Working on: person {0} and video {1}".format(person, video))
 			try:
 				raw_eeg_data = reader.get_matlab_data('eeg', person, video)

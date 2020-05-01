@@ -101,8 +101,25 @@ def plot_ecg_time():
 		plt.savefig("ECG " + label + " time.png", bbox_inches='tight')
 		plt.clf()
 
+def plot_multi_p():
+    plt.figure(figsize=(8, 4))
+
+    x = [1, 2, 4]
+    y = [(18.0 + (22.227 / 60.0)), (6 + (4.603 / 60.0)), (4 + (58.613 / 60.0))]
+
+
+    plt.bar(x, y, width=[0.5 , 1, 2], log=True)
+    plt.ylabel('Time (mins) - Lower is better')
+    plt.xlabel('Number of Processes')
+    plt.xscale('log', basex=2)
+    plt.yscale('linear')
+    plt.xticks(x, x)
+    plt.savefig("multi_process_time.png", bbox_inches='tight')
+    plt.clf()
+
 
 if __name__ == "__main__":
-	plot_eeg_freq()
-	plot_ecg_freq()
-	plot_ecg_time()
+#	plot_eeg_freq()
+#	plot_ecg_freq()
+#	plot_ecg_time()
+        plot_multi_p()

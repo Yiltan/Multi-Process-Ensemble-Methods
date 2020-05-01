@@ -9,4 +9,16 @@ recognition framework.
 Although there model performed better than some state of the art models
 they had issues with subject independent emotion recognition.
 
-\cite{Harper_2020}
+Harper and Southern used the ECG signals from the AMIGOS dataset
+and fed this data into a bayesian framework to model
+the uncertainty of the valence predictions \cite{Harper_2020}.
+They also compared made comparisons to LSTM and CNN models with
+and without their bayesian framework.
+This approach with did not account for multimodal input.
+
+The Deep Belief-Conditional Random Field Framework was used by
+Chao and Lui in \cite{8999626}.
+In this work they used the many different EEG chanels as inputs to their system.
+They trained each channel independently and use ensamble methods to combine the outputs.
+Using this method they were not able to outperorm other state of the art methods
+but they did show that this method is comparable and domes have promise.

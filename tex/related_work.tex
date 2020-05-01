@@ -22,3 +22,32 @@ In this work they used the many different EEG chanels as inputs to their system.
 They trained each channel independently and use ensamble methods to combine the outputs.
 Using this method they were not able to outperorm other state of the art methods
 but they did show that this method is comparable and domes have promise.
+
+In \cite{LI2020102185} Li et. al used LSTMs.
+This avoided manual labor of desining and extracting features.
+Before feeding the data into the LSTM they transformed the signals into spectrograms.
+Their methods is also multimodel and incorperats many different signals which
+are present in the AMIGOs datset.
+Using this method they were able to detect emotions from the raw signals and outperform some of the current best works in this area.
+
+
+Martínez-Tejada et. al showed that age, sex, personality type did not
+correlate with the detection of emotion, arousal or valiane when using
+machine learning algorithms \cite{Mart_nez_Tejada_2020}.
+They used relativly simple alogrithms to the other works discussed.
+They use SVMs, Naive bayes, and random forrests for their tests.
+These tests were carried out independently from one another.
+In their discussing they did comment on wheather the use of these
+simples models where the reason behind not finding a strong correlation
+or wheather there was not a correlation to begin with.
+
+The work by Yang and Lee in \cite{8683290}  developed
+a attribute-invariance loss embedded variational autoencoder (AI-VAE).
+When compared to traditional variational autoencoders (VAE)
+they saw that they were able to achive a 6.5\% performance improvment.
+
+All of these works do not use all of the various singals offered by the AMIGOS dataset.
+The goal of our work is to combine all of the EEG, ECG, and GSR signals for our feature extraction phase.
+We want so see if combining different signals from the same video sample
+allows us to better classifier our problem.
+

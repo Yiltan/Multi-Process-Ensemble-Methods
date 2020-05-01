@@ -12,6 +12,7 @@ This library was also used for the signal processing portion of our project.
 For ploting of figures we used \texttt{matplotlib.pyplot}.
 For the various algorithms we used throughout this paper such as SVM we
 used \texttt{sklearn}.
+\input{tex/figures/multiprocess/main.tex}
 
 \subsection{Performance of Multi-Process Feature Extraction}
 On a 4 core Intel i5 processes we tested the performance of our feature extraction
@@ -24,10 +25,9 @@ That said we were able to get our time down to under 5mins.
 This is around 3.6x improvemtn in performance.
 While this does not improve our classification, this allowed us play
 with our hyper parameters more frequently as each test took less time.
-\input{tex/figures/multiprocess/main.tex}
+\input{tex/figures/filtering/filtering}
 
 \subsection{Preprocessing}
-\input{tex/figures/filtering/filtering}
 We have applied 3 processing steps to our AMIGOS dataset;
 signal filtering, feature extraction, and dimentionality reduction.
 In Figures \ref{fig:eeg} and \ref{fig:ecg}
@@ -43,7 +43,7 @@ For the ECG signal we applied a 0.05Hz highpass filter as noted in
 to remove baseline wander.
 We also applied a bandstop filter with a 50Hz cutoff.
 A small notch is visible in
-Figures \ref{fig:filter:left} and \ref{fig:filter:right}.
+Figures \ref{fig:ecg}.
 The impact of the frequency filtering in the time domain can be seen in Figure
 \label{fig:ecg:time}.
 
@@ -53,3 +53,6 @@ In Tables \ref{table:logistic}, \ref{table:svm}, and \ref{table:knn}
 we have the output of the different classification methods which we used.
 With all three methods we that the F1 scores and the accuracy are very close.
 The exact accuracy which we obtain differs between the emototions which we try and classify.
+That said generally the KNN results are better than the SVM and the Logistic Regression.
+This could be because its a better model or because it is over fitting.
+To be certain of KNN's superiour classification.

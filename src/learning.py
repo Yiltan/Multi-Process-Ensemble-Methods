@@ -14,15 +14,9 @@ from sklearn.gaussian_process import GaussianProcessClassifier
 from sklearn.gaussian_process.kernels import RBF
 
 def logist_regression(categories):
-<<<<<<< HEAD
 
-	print("\n---------- Logistic Regression -----------")
-
-=======
-	
 	#print("\n---------- Logistic Regression -----------")
-	
->>>>>>> e5c664f201de44c375fef53377776d3f542fb846
+
 	f1_scores = {}
 	accuracies = {}
 	cnfsn_matrices = {}
@@ -53,15 +47,9 @@ def logist_regression(categories):
 	return f1_scores, accuracies, cnfsn_matrices
 
 def linear_svm(categories):
-<<<<<<< HEAD
 
-	print("\n---------- Linear SVM -----------")
-
-=======
-	
 	#print("\n---------- Linear SVM -----------")
-	
->>>>>>> e5c664f201de44c375fef53377776d3f542fb846
+
 	f1_scores = {}
 	accuracies = {}
 	cnfsn_matrices = {}
@@ -153,26 +141,26 @@ def knn(categories, k_range):
 
 
 def gaussian_nb(categories):
-	
+
 	# print("\n---------- Gaussian -----------")
-	
+
 	f1_scores = {}
 	accuracies = {}
 	cnfsn_matrices = {}
-	
+
 	for category in categories:
 		#print("\n------ Category: " + category)
 		labels, data = dr.reduce_dimensions(dimensions=40, category=category)
-	
+
 		train_data, test_data, train_label, test_label = train_test_split(
 			data, labels, test_size=0.15, random_state=0)
 
 		kernel = 1.0 * RBF(1.0)
-		
+
 		classifier = GaussianProcessClassifier(kernel=kernel, random_state=0)
 		classifier.fit(train_data, train_label)
 		classifier_predicted = classifier.predict(test_data)
-		
+
 		f_one_score = f1_score(test_label, classifier_predicted, average='weighted')
 		accuracy = metrics.accuracy_score(test_label, classifier_predicted)
 		cnfsn_matrix = confusion_matrix(test_label, classifier_predicted)
@@ -180,37 +168,37 @@ def gaussian_nb(categories):
 		#print("Accuracy: {0}".format(accuracy))
 		#print(cnfsn_matrix)
 		#sys.stdout.flush()
-		
+
 		f1_scores[category] = f_one_score
 		accuracies[category] = accuracy
 		cnfsn_matrices[category] = cnfsn_matrix
-	
+
 	return f1_scores, accuracies, cnfsn_matrices
-	
+
 def ensemble(categories, KNN_best_Ks):
-	
+
 	# print("\n---------- Ensemble -----------")
-	
+
 	f1_scores = {}
 	accuracies = {}
 	cnfsn_matrices = {}
-	
+
 	for category in categories:
 		#print("\n------ Category: " + category)
 		labels, data = dr.reduce_dimensions(dimensions=40, category=category)
-	
+
 		train_data, test_data, train_label, test_label = train_test_split(
 			data, labels, test_size=0.15, random_state=0)
 
-		svc = svm.LinearSVC(dual=False, max_iter=10000)	
-		knn = KNeighborsClassifier(n_neighbors=KNN_best_Ks[category])	
+		svc = svm.LinearSVC(dual=False, max_iter=10000)
+		knn = KNeighborsClassifier(n_neighbors=KNN_best_Ks[category])
 		logistic_regr = LogisticRegression(max_iter=10000)
 
 		estimators = [('knn', knn), ('svc', svc), ('log_reg', logistic_regr)]
 		ensemble = VotingClassifier(estimators, voting='hard', weights=[2,1,1])
 		ensemble.fit(train_data, train_label)
 		ensemble_predicted = ensemble.predict(test_data)
-		
+
 		f_one_score = f1_score(test_label, ensemble_predicted, average='weighted')
 		accuracy = metrics.accuracy_score(test_label, ensemble_predicted)
 		cnfsn_matrix = confusion_matrix(test_label, ensemble_predicted)
@@ -218,11 +206,11 @@ def ensemble(categories, KNN_best_Ks):
 		#print("Accuracy: {0}".format(accuracy))
 		#print(cnfsn_matrix)
 		#sys.stdout.flush()
-		
+
 		f1_scores[category] = f_one_score
 		accuracies[category] = accuracy
 		cnfsn_matrices[category] = cnfsn_matrix
-	
+
 	return f1_scores, accuracies, cnfsn_matrices
 # Used for testing
 if __name__ == "__main__":
@@ -231,33 +219,13 @@ if __name__ == "__main__":
 	LR_f1, LR_accuracy, LR_cnfsn = logist_regression(categories)
 	#GNB_f1, GNB_accuracy, GNB_cnfsn = gaussian_nb(categories)
 	SVM_f1, SVM_accuracy, SVM_cnfsn = linear_svm(categories)
-<<<<<<< HEAD
-	KNN_f1, KNN_accuracy, KNN_cnfsn, KNN_best_Ks = knn(categories, range(1, 26))
-
-	# You can print the scores right away, like:
-	# print(LR_f1)
-	# print(LR_accuracy)
-
-	print(KNN_f1)
-
-	for category in categories:
-		print("\n------ Category: {0} -------\n".format(category))
-#		print("\n1. Logistic Regression: ")
-#		print("\tf1_score: {0}".format(LR_f1[category]))
-#		print("\tAccuracy: {0}".format(LR_accuracy[category]))
-#
-#		print("\n2. SVM: ")
-#		print("\tf1_score: {0}".format(SVM_f1[category]))
-#		print("\tAccuracy: {0}".format(SVM_accuracy[category]))
-
-=======
 	KNN_f1, KNN_accuracy, KNN_cnfsn, KNN_best_Ks = knn(categories, range(1, 9)) #(1,25)
 	ENS_f1, ENS_accuracy, ENS_cnfsn = ensemble(categories, KNN_best_Ks)
-	
+
 	# You can print the scores right away, like:
 	# print(LR_f1)
 	# print(LR_accuracy)
-	
+
 	for category in categories:
 		print("\n------ Category: {0} -------".format(category))
 		'''
@@ -265,28 +233,23 @@ if __name__ == "__main__":
 		print("\tf1_score: {0}".format(GNB_f1[category]))
 		print("\tAccuracy: {0}".format(GNB_accuracy[category]))
 		'''
-		
-		print("\n1. Logistic Regression: ")
-		print("\tf1_score: {0}".format(LR_f1[category]))
-		print("\tAccuracy: {0}".format(LR_accuracy[category]))
-		
-		print("\n2. SVM: ")
-		print("\tf1_score: {0}".format(SVM_f1[category]))
-		print("\tAccuracy: {0}".format(SVM_accuracy[category]))
-		
->>>>>>> e5c664f201de44c375fef53377776d3f542fb846
-		print("\n3. KNN: ")
-		print("\tf1_score: {0}".format(KNN_f1[category]))
-		print("\tAccuracy: {0}".format(KNN_accuracy[category]))
-		print("\tBest K: {0}".format(KNN_best_Ks[category]))
-<<<<<<< HEAD
 
-=======
-		
+#		print("\n1. Logistic Regression: ")
+#		print("\tf1_score: {0}".format(LR_f1[category]))
+#		print("\tAccuracy: {0}".format(LR_accuracy[category]))
+#
+#		print("\n2. SVM: ")
+#		print("\tf1_score: {0}".format(SVM_f1[category]))
+#		print("\tAccuracy: {0}".format(SVM_accuracy[category]))
+#
+#		print("\n3. KNN: ")
+#		print("\tf1_score: {0}".format(KNN_f1[category]))
+#		print("\tAccuracy: {0}".format(KNN_accuracy[category]))
+#		print("\tBest K: {0}".format(KNN_best_Ks[category]))
+
 		print("\n4. ENS: ")
 		print("\tf1_score: {0}".format(ENS_f1[category]))
 		print("\tAccuracy: {0}".format(ENS_accuracy[category]))
-		
->>>>>>> e5c664f201de44c375fef53377776d3f542fb846
+
 		sys.stdout.flush()
 

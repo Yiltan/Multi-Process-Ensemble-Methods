@@ -2,14 +2,14 @@
 \label{sec:experimental_results}
 \subsection{Software Platform}
 For our tests we are using \texttt{pandas},
-a data manpilation librirary,
+a data manipulation library,
 for reading data in structured formats such as
 \texttt{.csv} and \texttt{.xlxs} files.
-The AMIGOS dataset is avaible in \texttt{.mat} format.
+The AMIGOS data set is available in \texttt{.mat} format.
 As we would like to use Python for our work we used
 the library \texttt{SciPi} to read this format in a Python friendly manner.
 This library was also used for the signal processing portion of our project.
-For ploting of figures we used \texttt{matplotlib.pyplot}.
+For plotting of figures we used \texttt{matplotlib.pyplot}.
 For the various algorithms we used throughout this paper such as SVM we
 used \texttt{sklearn}.
 \input{tex/figures/multiprocess/main.tex}
@@ -19,29 +19,29 @@ On a 4 core Intel i5 processes we tested the performance of our feature extracti
 for 1, 2, and 4 processes.
 In Figure \ref{fig:multip:time} we can see the time taken to read and process
 the data for these different process counts.
-For a single process it took over 18 minuits to extract features.
-There is only a minuit difference between the 2 and 4 process feature extraction phase.
+For a single process it took over 18 minutes to extract features.
+There is only a Minot difference between the 2 and 4 process feature extraction phase.
 That said we were able to get our time down to under 5mins.
-This is around 3.6x improvemtn in performance.
+This is around 3.6x improvement in performance.
 While this does not improve our classification, this allowed us play
 with our hyper parameters more frequently as each test took less time.
 \input{tex/figures/filtering/filtering}
 
-\subsection{Preprocessing}
-We have applied 3 processing steps to our AMIGOS dataset;
-signal filtering, feature extraction, and dimentionality reduction.
+\subsection{Prepossessing}
+We have applied 3 processing steps to our AMIGOS data set;
+signal filtering, feature extraction, and dimensional reduction.
 In Figures \ref{fig:eeg} and \ref{fig:ecg}
 we can see our filters applied to the EEG and ECG signals in the frequency domain.
 For the EEG signal we followed the guideline set on the AMIGOS
-website and applied a 4-45Hz bandpass filter \cite{AMIGOS:2018}.
+website and applied a 4-45Hz band pass filter \cite{AMIGOS:2018}.
 We removed a significant amount of low frequency noise.
-We can see that the preproccessed data results
+We can see that the prepossessed data results
 in an slightly high amplitude than our original signal despite keeping the same shape.
 Through experimental analysis we noticed that this was by a factor of 5.
-For the ECG signal we applied a 0.05Hz highpass filter as noted in
+For the ECG signal we applied a 0.05Hz high pass filter as noted in
 \cite{SantamariaGranados:2019}
 to remove baseline wander.
-We also applied a bandstop filter with a 50Hz cutoff.
+We also applied a band stop filter with a 50Hz cutoff.
 A small notch is visible in
 Figures \ref{fig:ecg}.
 The impact of the frequency filtering in the time domain can be seen in Figure
@@ -52,7 +52,7 @@ The impact of the frequency filtering in the time domain can be seen in Figure
 In Tables \ref{table:logistic}, \ref{table:svm}, \ref{table:knn}, and \ref{table:voting}
 we have the output of the different classification methods which we used.
 With all three methods we that the F1 scores and the accuracy are very close.
-The exact accuracy which we obtain differs between the emototions which we try and classify.
+The exact accuracy which we obtain differs between the emotions which we try and classify.
 That said generally the KNN results are better than the SVM and the Logistic Regression.
 This could be because its a better model or because it is over fitting.
-To be certain of KNN's superiour classification.
+To be certain of KNN's superior classification.

@@ -3,7 +3,7 @@
 \subsection{Sensors}
 Affective computing often relies on gathering data from human sources.
 Many different types of sensors exists for
-gathing information which can be important in this area.
+gathering information which can be important in this area.
 In this paper we will focus in the following three types of sensors;
 Electrocardiography,
 Electroencephalography,
@@ -12,12 +12,12 @@ and Galvanic Skin Response.
 \subsubsection{Electrocardiography (ECG)}
 Sensors are used to measure muscle activity.
 As muscles contract and relax,
-electirical signals are sent via neurons.
+electrical signals are sent via neurons.
 These electrical signals then
 can be recorded using various types of sensors.
 One of the main types of sensors is sEMGs,
 they are usually placed on the belly of the muscle
-and are cleaned with alchol before palcing
+and are cleaned with alcohol before placing
 on the surface of the skin.
 These sensors can be used to measure
 the PQRST complex of a heart beat.
@@ -35,57 +35,57 @@ Many different frequency bands can be filtered from these
 signals to obtain different information about brain activity.
 
 \subsubsection{Galvanic Skin Response (GSR)}
-GSR are placed directly onto the skin of the particiapnts.
-The state of a sweat gland varies the resitance of human skin.
+GSR are placed directly onto the skin of the participants.
+The state of a sweat gland varies the resistance of human skin.
 Studies have shown that sweating is controlled by the sympathetic nervous system
 therefore we can collect this information
 to build models on the system's behaviour.
 
-\subsection{Amigos Dataset}
-The AMIGOS dataset was prepaired by research groups at
+\subsection{Amigos Data set}
+The AMIGOS data set was prepared by research groups at
 Queen Mary University of London, United Kingdom and
 University of Trento, Italy \cite{AMIGOS:2018}.
-This dataset allows for research to be conducted on
+This data set allows for research to be conducted on
 personality traits, mood and affect.
 
-The dataset contains 40 participants who each watched 20 videos.
-These 20 videos are split into two catagories; long and short.
-Each of these catagories are furthsplit into
-wheather the participant watched the video alone or within a group.
+The data set contains 40 participants who each watched 20 videos.
+These 20 videos are split into two categories; long and short.
+Each of these categories are furthsplit into
+whether the participant watched the video alone or within a group.
 Data was collected using ECG, EEG, and GSR sensors.
 The participants were also recorded but we will not use the video recordings
 for our work.
-These videos were labeled with:
+These videos were labelled with:
 valence, arousal, control, familiarity, like/dislike,
 and selection of basic emotions.
 
 \subsection{Machine Learning}
 Machine Learning (ML) uses statistical models and
-optimization algorithms to model a problem.
-ML often requires large volumnes of data to generalize a problem.
-Representation Learning is when the orignal data is not learned
-but rather transfered into a different form in which is learned.
+optimisation algorithms to model a problem.
+ML often requires large volumes of data to generalise a problem.
+Representation Learning is when the original data is not learned
+but rather transferred into a different form in which is learned.
 One example would be using feature extraction.
-Features are extracted from datasets and then this new representation of the data
+Features are extracted from data sets and then this new representation of the data
 is learned.
 Another common problem is having too much data which causes slow training times.
-Techniques like dimention reduction are used to reduce the volume of
+Techniques like dimension reduction are used to reduce the volume of
 data.
 
 Many different models are used to classify data within machine learning,
 some of the most popular are SVM, KNN, Naive Bayes.
 SVMs try to fit a plane between many data points.
 This algorithm often has problems with data which is not
-linearly sepearble.
+linearly separable.
 KNN algorithm finds the K-nearest neighbours to each data point.
 This algorithm is simple to implement but it does not scale well
-to large datasets as the distance between any two points must be calculated.
+to large data sets as the distance between any two points must be calculated.
 The Naive Bayes is also another simple model which is used but the main issue
 with using this that it makes an assumption about the underlying distribution of
 our data.
 
 \subsection{Motivation}
-The new AMIGOS dataset has provided researchers with new
+The new AMIGOS data set has provided researchers with new
 data which has not been previously collected.
 Using the signals such as ECG, EEG, and GSR
 could we create a mapping to the
@@ -93,5 +93,5 @@ labels of the videos such as
 valence, arousal, control, familiarity, like/dislike,
 and selection of basic emotions?
 Other existing work has focused on using a single signal types
-(some have studied multiple of the same type) from this dataset
-and the did not incorperate any multi-processing.
+(some have studied multiple of the same type) from this data set
+and the did not incorporate any multi-processing.

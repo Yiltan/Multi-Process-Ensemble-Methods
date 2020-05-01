@@ -307,7 +307,8 @@ def process_amigos_data():
 				raw_gsr_data = reader.get_matlab_data('gsr', person, video)
 				gsr_features = process_gsr(raw_gsr_data[1])
 				
-				all_features = np.array(eeg_features + ecg_features_R + ecg_features_L + gsr_features)
+				info = [person, video]
+				all_features = np.array(info + eeg_features + ecg_features_R + ecg_features_L + gsr_features)
 				amigos_data = np.vstack((amigos_data, all_features)) if len(amigos_data) else all_features
 			
 			except:
@@ -330,7 +331,7 @@ def process_amigos_data_threaded(pid, total, q):
 	
 	chunk = int(reader._number_of_users / total)
 	si = pid * chunk + 1;
-	ei = min(reader._number_of_users, si + chunk)
+	ei = min(reader._number_of_users + 1, si + chunk)
 	
 	#chunk = int(2 / total)
 	#si = pid * chunk + 1;
@@ -356,7 +357,8 @@ def process_amigos_data_threaded(pid, total, q):
 				raw_gsr_data = reader.get_matlab_data('gsr', person, video)
 				gsr_features = process_gsr(raw_gsr_data[1])
 				
-				all_features = np.array(eeg_features + ecg_features_R + ecg_features_L + gsr_features)
+				info = [person, video]
+				all_features = np.array(info + eeg_features + ecg_features_R + ecg_features_L + gsr_features)
 				amigos_data = np.vstack((amigos_data, all_features)) if len(amigos_data) else all_features
 			
 			except:
@@ -400,25 +402,7 @@ if __name__ == "__main__":
 	process_count = 1
 	if len(sys.argv) == 2 :
 		process_count = int(sys.argv[1])
-	
-	
 	logging.info('Starting feature extraction with {0} processes.'.format(process_count))
-	
-	'''
-	raw_eeg_data = reader.get_matlab_data('eeg', 6, 12)
-	eeg_features = process_eeg(raw_eeg_data[3:17])
-	print(len(eeg_features))
-	
-	raw_ecg_data = reader.get_matlab_data('ecg', 1, 15)
-	ecg_features_R = process_ecg(raw_ecg_data[1])
-	ecg_features_L = process_ecg(raw_ecg_data[2])
-	print(len(ecg_features_R))
-	print(len(ecg_features_L))
-	
-	raw_gsr_data = reader.get_matlab_data('gsr', 1, 13)
-	gsr_features = process_gsr(raw_gsr_data[1])
-	print(len(gsr_features))
-	'''
 	
 	processes = []
 	for i in range(process_count):
@@ -436,4 +420,19 @@ if __name__ == "__main__":
 	
 	# Let's store the preprocessed extracted features.
 	# np.savetxt('data/features.csv', process_amigos_data(), delimiter=',')
+	'''
+	raw_eeg_data = reader.get_matlab_data('eeg', 6, 12)
+	eeg_features = process_eeg(raw_eeg_data[3:17])
+	print(len(eeg_features))
 	
+	raw_ecg_data = reader.get_matlab_data('ecg', 1, 15)
+	ecg_features_R = process_ecg(raw_ecg_data[1])
+	ecg_features_L = process_ecg(raw_ecg_data[2])
+	print(len(ecg_features_R))
+	print(len(ecg_features_L))
+	
+	raw_gsr_data = reader.get_matlab_data('gsr', 1, 13)
+	gsr_features = process_gsr(raw_gsr_data[1])
+	print(len(gsr_features))
+	'''
+

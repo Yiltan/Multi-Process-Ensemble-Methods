@@ -1,3 +1,6 @@
+import os
+import sys
+import multiprocessing as mp
 import reader
 import filters
 import scipy.signal as signal
@@ -5,7 +8,9 @@ import scipy.stats as stats
 import numpy as np
 import biosppy.signals as bio
 import PyEMD
-import sys
+import logging
+
+from logging.handlers import QueueHandler, QueueListener
 
 def filter_ecg(data): 
 	# ECG sample rate has to be 256 - After 10 hours debug!
@@ -311,9 +316,93 @@ def process_amigos_data():
 				#corrupted = np.vstack((corrupted, [person, video])) if len(corrupted) else [person, video]
 	
 	return amigos_data
+
+def worker_init(q):
+    # all records from worker processes go to qh and then into q
+    qh = QueueHandler(q)
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+    logger.addHandler(qh)
+
+def process_amigos_data_threaded(pid, total, q):
+	
+	worker_init(q)
+	
+	chunk = int(reader._number_of_users / total)
+	si = pid * chunk + 1;
+	ei = min(reader._number_of_users, si + chunk)
+	
+	#chunk = int(2 / total)
+	#si = pid * chunk + 1;
+	#ei = min(3, si + chunk) 
+
+	logging.info("Process-{0}, starts on users from {1} to {2}".format(pid, si, ei-1))
+	amigos_data = np.array([])
+	corrupted = np.array([])
+	for person in range(si, ei):
+		if(person in reader._missing_data_subject):
+			logging.info('Skipping User{0}.'.format(person))
+			continue
+		for video in range(1, reader._videos_per_user):
+			logging.info("Working on: person {0} and video {1}".format(person, video))
+			try:
+				raw_eeg_data = reader.get_matlab_data('eeg', person, video)
+				eeg_features = process_eeg(raw_eeg_data[3:17])
+				
+				raw_ecg_data = reader.get_matlab_data('ecg', person, video)
+				ecg_features_R = process_ecg(raw_ecg_data[1])
+				ecg_features_L = process_ecg(raw_ecg_data[2])	
+				
+				raw_gsr_data = reader.get_matlab_data('gsr', person, video)
+				gsr_features = process_gsr(raw_gsr_data[1])
+				
+				all_features = np.array(eeg_features + ecg_features_R + ecg_features_L + gsr_features)
+				amigos_data = np.vstack((amigos_data, all_features)) if len(amigos_data) else all_features
+			
+			except:
+				logging.info("ERROR --> Couldn't extract feature, person: {0}, video: {1}".format(person, video))
+				#corrupted = np.vstack((corrupted, [person, video])) if len(corrupted) else [person, video]
+	
+	logging.info("Saving features-{0}".format(pid))
+	np.savetxt('data/features-{0}.csv'.format(pid), amigos_data, delimiter=',')
+
+def merge_features(count):
+	
+	output = open("data/features-total.csv", "w")
+	for i in range(count):
+		input = open("data/features-{0}.csv".format(str(i)))
+		output.writelines(input.readlines());
+		input.close()	
+	output.close()
+
+def logger_init():
+    q = mp.Queue()
+    # this is the handler for all log records
+    handler = logging.StreamHandler()
+    handler.setFormatter(logging.Formatter("%(levelname)s: P%(process)s - %(message)s"))
+
+    # ql gets records from the queue and sends them to the handler
+    ql = QueueListener(q, handler)
+    ql.start()
+
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+    # add the handler to the logger so records from this process are handled
+    logger.addHandler(handler)
+
+    return ql, q
 	
 # Used for testing
 if __name__ == "__main__":
+
+	q_listener, q = logger_init()
+	
+	process_count = 1
+	if len(sys.argv) == 2 :
+		process_count = int(sys.argv[1])
+	
+	
+	logging.info('Starting feature extraction with {0} processes.'.format(process_count))
 	
 	'''
 	raw_eeg_data = reader.get_matlab_data('eeg', 6, 12)
@@ -331,6 +420,20 @@ if __name__ == "__main__":
 	print(len(gsr_features))
 	'''
 	
+	processes = []
+	for i in range(process_count):
+		p = mp.Process(target=process_amigos_data_threaded, args=(i, process_count, q))
+		processes.append(p)
+		p.start()
+	
+	for i in range(process_count):
+		processes[i].join()
+	
+	q_listener.stop()
+	
+	logging.info('All processes finished, now merging the result.')
+	merge_features(process_count)
+	
 	# Let's store the preprocessed extracted features.
-	np.savetxt('data/features.csv', process_amigos_data(), delimiter=',')
+	# np.savetxt('data/features.csv', process_amigos_data(), delimiter=',')
 	

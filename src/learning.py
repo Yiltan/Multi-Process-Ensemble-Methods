@@ -140,7 +140,7 @@ def knn(categories, k_range):
 	return max_f1_scores, max_accuracies, cnfsn_matrices, best_Ks
 
 
-def gaussian_nb(categories, KNN_best_Ks):
+def gaussian_nb(categories):
 	
 	# print("\n---------- Gaussian -----------")
 	
@@ -155,18 +155,15 @@ def gaussian_nb(categories, KNN_best_Ks):
 		train_data, test_data, train_label, test_label = train_test_split(
 			data, labels, test_size=0.15, random_state=0)
 
-		svc = svm.LinearSVC(dual=False, max_iter=10000,probability=True)	
-		knn = KNeighborsClassifier(n_neighbors=KNN_best_Ks[category])	
-		logistic_regr = LogisticRegression(max_iter=10000)
-
-		estimators = [('knn', knn), ('svc', svc), ('log_reg', logistic_regr)]
-		ensemble = VotingClassifier(estimators, voting='soft', weights=[2,1,1])
-		ensemble.fit(train_data, train_label)
-		ensemble_predicted = ensemble.predict(test_data)
+		kernel = 1.0 * RBF(1.0)
 		
-		f_one_score = f1_score(test_label, ensemble_predicted, average='weighted')
-		accuracy = metrics.accuracy_score(test_label, ensemble_predicted)
-		cnfsn_matrix = confusion_matrix(test_label, ensemble_predicted)
+		classifier = GaussianProcessClassifier(kernel=kernel, random_state=0)
+		classifier.fit(train_data, train_label)
+		classifier_predicted = classifier.predict(test_data)
+		
+		f_one_score = f1_score(test_label, classifier_predicted, average='weighted')
+		accuracy = metrics.accuracy_score(test_label, classifier_predicted)
+		cnfsn_matrix = confusion_matrix(test_label, classifier_predicted)
 		#print("f1_score: {0}".format(f_one_score))
 		#print("Accuracy: {0}".format(accuracy))
 		#print(cnfsn_matrix)
@@ -220,6 +217,7 @@ if __name__ == "__main__":
 	categories = ['neutral','disgust','happiness','surprise','anger','fear','sadness']
 	
 	LR_f1, LR_accuracy, LR_cnfsn = logist_regression(categories)
+	#GNB_f1, GNB_accuracy, GNB_cnfsn = gaussian_nb(categories)
 	SVM_f1, SVM_accuracy, SVM_cnfsn = linear_svm(categories)
 	KNN_f1, KNN_accuracy, KNN_cnfsn, KNN_best_Ks = knn(categories, range(1, 9)) #(1,25)
 	ENS_f1, ENS_accuracy, ENS_cnfsn = ensemble(categories, KNN_best_Ks)
@@ -230,6 +228,12 @@ if __name__ == "__main__":
 	
 	for category in categories:
 		print("\n------ Category: {0} -------".format(category))
+		'''
+		print("\n0. Gaussian Naive Bayes: ")
+		print("\tf1_score: {0}".format(GNB_f1[category]))
+		print("\tAccuracy: {0}".format(GNB_accuracy[category]))
+		'''
+		
 		print("\n1. Logistic Regression: ")
 		print("\tf1_score: {0}".format(LR_f1[category]))
 		print("\tAccuracy: {0}".format(LR_accuracy[category]))

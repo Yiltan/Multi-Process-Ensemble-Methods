@@ -1,23 +1,23 @@
 The growth of Machine Learning has allowed us to solve new
 problems within the field of Affective computing,
-therefore it is important to use these new tools within this
-domain to better solve problems.
+therefore it is important to use the new Machine Learning tools within this
+domain to solve problems more efficiently.
 Now many wearable technologies use sensors such as ECG in their devices.
 Theses devices have multiple cores and using them efficiently for
 affective computing applications is incredibly important.
-We used the AMIGOs data set, with the EEG, ECG and GSR signals
-we applied filtering, feature extraction, and dimentationality reduction
-using 4 CPU cores.
+We used the AMIGOs data set, with the EEG, ECG and GSR signals, 
+and applied filtering, feature extraction, and dimentationality reduction
+in a parallel manner.
 Using this method we received a 3.6x performance improvement in running our
 pre-processing stage.
-From these features we classified them based on emotions
-neutral, disgust, happiness, and etc.
-We compared 3 different classifies Logistic Regression,
-SVM, and KNN.
-For certain emotions we were able to obtain an F1 score of 90\%.
+From these features we classified them based on the emotions:
+neutral, disgust, happiness, surprise, anger, fear, and sadness.
+We compared 4 different classifiers: Logistic Regression,
+SVM, KNN, and AdaBoost.
+For certain emotions we were able to obtain an F1 score of 91\%.
 Some emotions such as anger we had a harder time detecting
-using theses methods and only obtained a score of 48\%.
-We also combined these 3 models and used a voting classifier which provided
+using these methods and only obtained a score of 71\%.
+We also combined these 4 models and used a voting classifier which provided
 more reliable results.
 We have shown that multi processing will benefit affective computing workloads.
 Our results have also shown that combining multiple different signal types does
